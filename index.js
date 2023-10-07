@@ -29,11 +29,13 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(
-  cors({
-    origin: "http://localhost:3001",
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-    credentials: true,
-  })
+  cors(
+  //   {
+  //   origin: "",
+  //   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  //   credentials: true,
+  // }
+  )
 );
 // app.use(json());
 // support parsing of application/json type post data
