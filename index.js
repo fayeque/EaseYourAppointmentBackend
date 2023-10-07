@@ -30,11 +30,11 @@ app.use(
 app.use(bodyParser.json());
 app.use(
   cors(
-  //   {
-  //   origin: "",
-  //   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-  //   credentials: true,
-  // }
+    {
+    origin: "https://ease-your-appointment-fayeque-hannans-projects.vercel.app",
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    credentials: true,
+  }
   )
 );
 // app.use(json());
