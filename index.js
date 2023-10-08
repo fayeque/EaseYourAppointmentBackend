@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.use(
   cors(
     {
-    origin: ["https://ease-your-appointment-fayeque-hannans-projects.vercel.app","http://localhost:3001"],
+    origin: ["https://easemyappointment.onrender.com","https://ease-your-appointment-fayeque-hannans-projects.vercel.app","http://localhost:3001"],
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
     credentials: true,
   }
