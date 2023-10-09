@@ -4,6 +4,8 @@ import 'express-async-errors';
 import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 // import { currentUserRouter } from './routes/current-user';
 // import { signinRouter } from './routes/signin';
 // import { signoutRouter } from './routes/signout';
@@ -14,20 +16,23 @@ import { currentUserRouter } from './src/routes/current-user.js';
 import { signoutRouter } from './src/routes/signout.js';
 import { patientAppnRouter } from './src/routes/patientAppn.js';
 import { appointmentRouter } from './src/routes/appointment.js';
-import { errorHandler,currentUser} from '@fhannan/common';
+import { errorHandler} from '@fhannan/common';
+
+import currentUser  from './src/middlewares/currentUser.js';
 
 import bodyParser from 'body-parser';
+import test from './src/middlewares/test.js';
 // import { NotFoundError } from './errors/not-found-error';
 
 
 
 const app = express();
-app.use(
-  cookieSession({
-    signed:false,
-    secure:true
-  })
-);
+// app.use(
+//   cookieSession({
+//     signed:false
+//     // secure:true
+//   })
+// );
 app.use(bodyParser.json());
 app.use(
   cors(
@@ -45,9 +50,12 @@ app.use(
 // app.use(currentUserRouter);
 // app.use(signinRouter);
 // app.use(signoutRouter);
+
+app.use(currentUser);
 app.use(signupRouter);
 app.use(signinRouter);
-app.use(currentUser);
+// app.use(test);
+
 app.use(currentUserRouter);
 app.use(signoutRouter);
 app.use(doctorsRouter);
@@ -58,6 +66,7 @@ app.use(appointmentRouter);
 // });
 
 app.use(errorHandler);
+
 
 const start = async () => {
   try{  

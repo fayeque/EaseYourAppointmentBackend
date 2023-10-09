@@ -60,14 +60,15 @@ router.post(
       'abcdefg'
     );
 
-    req.session = {
-      jwt: userJwt
-    };
+    // req.session = {
+    //   jwt: userJwt
+    // };
     // Store it on session object
     var fUser={
         id:existingUser._id,
         email:existingUser.email,
-        userRole:existingUser.userRole
+        userRole:existingUser.userRole,
+        jwtToken:userJwt
     }
 
     console.log("fuser in signin " , fUser);
@@ -127,7 +128,8 @@ router.post(
     var fUser={
         id:existingUser._id,
         email:existingUser.email,
-        userRole:existingUser.userRole
+        userRole:existingUser.userRole,
+        jwtToken:userJwt
     }
     res.status(200).send(JSON.stringify(fUser));
   }

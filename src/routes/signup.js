@@ -57,13 +57,14 @@ router.post(
     );
 
     // Store it on session object
-    req.session= {
-      jwt: userJwt
-    };
+    // req.session= {
+    //   jwt: userJwt
+    // };
     var fUser={
       id:patient._id,
       email:patient.email,
-      userRole:patient.userRole
+      userRole:patient.userRole,
+      jwtToken:userJwt
     }
     res.status(201).send(JSON.stringify(fUser));
   }
@@ -125,15 +126,16 @@ router.post(
     );
 
     // Store it on session object
-    req.session= {
-      jwt: userJwt
-    };
+    // req.session= {
+    //   jwt: userJwt
+    // };
     
     var fUser={
       id: user._id,
       email: user.email,
       name:user.name,
-      userRole:user.userRole
+      userRole:user.userRole,
+      jwtToken:userJwt
     }
 
 

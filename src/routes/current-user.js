@@ -1,12 +1,10 @@
 import express from 'express';
-import { currentUser } from '@fhannan/common';
+import currentUser  from '../middlewares/currentUser.js';
 
 const router = express.Router();
 
 router.get('/api/users/currentuser', currentUser, (req, res) => {
-
-  console.log("current user here session " , req.session);
-  console.log("current user here cookies " , req.cookies);
+  console.log(req.currentUser);
   res.send({ currentUser: req.currentUser || null });
 });
 
