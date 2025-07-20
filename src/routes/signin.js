@@ -20,9 +20,9 @@ router.get("/",(req,res) => {
 router.post(
   '/api/users/patient/signin',
   [
-    body('email')
-      .isEmail()
-      .withMessage('Email must be valid'),
+    body('mobile')
+      .isLength({ min: 10, max: 15 })
+      .withMessage('Mobile number must be valid'),
     body('password')
       .trim()
       .notEmpty()
@@ -30,9 +30,9 @@ router.post(
   ],
   validateRequest,
   async (req, res) => {
-    const { email, password } = req.body;
-    console.log("coming in patient sigin roues");
-    const existingUser = await Patient.findOne({ email });
+    const { mobile, password } = req.body;
+    console.log("coming in patient signin routes");
+    const existingUser = await Patient.findOne({ mobile });
     if (!existingUser) {
       throw new BadRequestError('Invalid credentials');
     }
@@ -54,7 +54,7 @@ router.post(
     const userJwt = jwt.sign(
       {
         id: existingUser.id,
-        email: existingUser.email,
+        mobile: existingUser.mobile,
         userRole:existingUser.userRole
       },
       'abcdefg'
@@ -66,7 +66,7 @@ router.post(
     // Store it on session object
     var fUser={
         id:existingUser._id,
-        email:existingUser.email,
+        mobile:existingUser.mobile,
         userRole:existingUser.userRole,
         jwtToken:userJwt
     }
@@ -80,9 +80,9 @@ router.post(
 router.post(
   '/api/users/doctor/signin',
   [
-    body('email')
-      .isEmail()
-      .withMessage('Email must be valid'),
+    body('mobile')
+      .isLength({ min: 10, max: 15 })
+      .withMessage('Mobile number must be valid'),
     body('password')
       .trim()
       .notEmpty()
@@ -90,9 +90,9 @@ router.post(
   ],
   validateRequest,
   async (req, res) => {
-    const { email, password } = req.body;
+    const { mobile, password } = req.body;
 
-    const existingUser = await Doctor.findOne({ email });
+    const existingUser = await Doctor.findOne({ mobile });
     if (!existingUser) {
       throw new BadRequestError('Invalid credentials');
     }
@@ -114,7 +114,7 @@ router.post(
     const userJwt = jwt.sign(
       {
         id: existingUser.id,
-        email: existingUser.email,
+        mobile: existingUser.mobile,
         userRole:existingUser.userRole
       },
       'abcdefg'
@@ -127,7 +127,7 @@ router.post(
 
     var fUser={
         id:existingUser._id,
-        email:existingUser.email,
+        mobile:existingUser.mobile,
         userRole:existingUser.userRole,
         jwtToken:userJwt
     }

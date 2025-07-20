@@ -1,8 +1,14 @@
 import jwt from 'jsonwebtoken';
 
 const currentUser = function (req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];;
+    console.log("coming in middleware")
     console.log(req.headers.authorization);
+    if (!req.headers.authorization) {
+        // If no authorization header, just call next()
+        return next();
+    }
+    const token = req.headers.authorization.split(' ')[1];
+   
     console.log("token here is " + token);
     if (token === undefined || token === null){
         console.log("is it not coming here");

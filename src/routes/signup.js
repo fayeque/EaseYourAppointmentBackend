@@ -18,7 +18,7 @@ var pcode="abcd";
 router.post(
   "/api/users/patient/signup",
   [
-    body("email").isEmail().withMessage("Email must be valid"),
+    body("mobile").isLength({ min: 10, max: 15 }).withMessage("Mobile number must be valid"),
     body("password")
       .trim()
       .isLength({ min: 4, max: 20 })
@@ -28,10 +28,10 @@ router.post(
   async (req,res) => {
   
     console.log("Creating a user...");
-    var {email,password} = req.body;
-    var existingUser=await Patient.findOne({email:email});
+    var {mobile,password} = req.body;
+    var existingUser=await Patient.findOne({mobile:mobile});
     if(existingUser){
-        throw new BadRequestError('Email in use');
+        throw new BadRequestError('Mobile number in use');
     }
     
     const salt = randomBytes(8).toString('hex');
@@ -40,7 +40,7 @@ router.post(
     password=`${buf.toString('hex')}.${salt}`;
 
     var patient=await new Patient({
-      email:email,
+      mobile:mobile,
       password:password,
       userRole:0
     })
@@ -50,7 +50,7 @@ router.post(
     const userJwt = jwt.sign(
       {
         id: patient.id,
-        email: patient.email,
+        mobile: patient.mobile,
         userRole:patient.userRole
       },
       "abcdefg"
@@ -62,7 +62,7 @@ router.post(
     // };
     var fUser={
       id:patient._id,
-      email:patient.email,
+      mobile:patient.mobile,
       userRole:patient.userRole,
       jwtToken:userJwt
     }
@@ -74,7 +74,7 @@ router.post(
 router.post(
   "/api/users/doctor/signup",
   [
-    body("email").isEmail().withMessage("Email must be valid"),
+    body("mobile").isLength({ min: 10, max: 15 }).withMessage("Mobile number must be valid"),
     body("password")
       .trim()
       .isLength({ min: 4, max: 20 })
@@ -84,7 +84,7 @@ router.post(
   validateRequest,
   async (req,res) => {
     console.log("Creating a user...");
-    var {email,password,passcode,name,chambers,speciality} = req.body;
+    var {mobile,password,passcode,name,chambers,speciality} = req.body;
 
     chambers.forEach((chamber) => {
         chamber.timing = `${chamber.from}-${chamber.to}`
@@ -94,9 +94,9 @@ router.post(
     if(passcode != pcode){
       throw new BadRequestError('Passcode is not valid');
     }
-    var existingUser=await Doctor.findOne({email:email});
+    var existingUser=await Doctor.findOne({mobile:mobile});
     if(existingUser){
-        throw new BadRequestError('Email in use');
+        throw new BadRequestError('Mobile number in use');
     }
     
     const salt = randomBytes(8).toString('hex');
@@ -105,7 +105,7 @@ router.post(
     password=`${buf.toString('hex')}.${salt}`;
 
     var user=await new Doctor({
-      email:email,
+      mobile:mobile,
       name:name,
       password:password,
       userRole:1,
@@ -118,7 +118,7 @@ router.post(
     const userJwt = jwt.sign(
       {
         id: user._id,
-        email: user.email,
+        mobile: user.mobile,
         name:user.name,
         userRole:user.userRole
       },
@@ -132,7 +132,7 @@ router.post(
     
     var fUser={
       id: user._id,
-      email: user.email,
+      mobile: user.mobile,
       name:user.name,
       userRole:user.userRole,
       jwtToken:userJwt

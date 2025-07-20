@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 
 const patientSchema=new mongoose.Schema({
-    email: {
-        type: String,
-        required: true
+    mobile : {
+        type: Number,
+        required: true,
+        unique: true
       },
       password: {
         type: String,

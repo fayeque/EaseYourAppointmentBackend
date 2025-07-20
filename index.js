@@ -56,6 +56,11 @@ app.use(signupRouter);
 app.use(signinRouter);
 // app.use(test);
 
+// Add home route
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to Ease Your Appointment API' });
+});
+
 app.use(currentUserRouter);
 app.use(signoutRouter);
 app.use(doctorsRouter);
