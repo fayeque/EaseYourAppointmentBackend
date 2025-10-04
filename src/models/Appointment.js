@@ -25,6 +25,7 @@ const appointmentSchema=new mongoose.Schema({
             address:String,
             mobile:String,
             patientId:String,
+            number:Number,
             status:{type:String,default:"pending"}
         }
     ]

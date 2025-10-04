@@ -10,6 +10,7 @@ import { BadRequestError } from "@fhannan/common";
 import { validateRequest } from "@fhannan/common";
 import { Patient } from "../models/Patient.js";
 import { Doctor } from "../models/Doctor.js";
+import { PatientAppn } from '../models/patientAppn.js';
 
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.post(
   validateRequest,
   async (req,res) => {
   
+    try{
     console.log("Creating a user...");
     var {mobile,password} = req.body;
     var existingUser=await Patient.findOne({mobile:mobile});
@@ -46,6 +48,12 @@ router.post(
     })
 
     await patient.save();
+
+    // Link offline appointments
+    await PatientAppn.updateMany(
+      { mobile: patient.mobile, patientId: null },
+      { $set: { patientId: patient._id } }
+    );
 
     const userJwt = jwt.sign(
       {
@@ -67,6 +75,11 @@ router.post(
       jwtToken:userJwt
     }
     res.status(201).send(JSON.stringify(fUser));
+  }
+
+catch(err){
+  console.log("error in creating patient ", err);
+}
   }
 );
 

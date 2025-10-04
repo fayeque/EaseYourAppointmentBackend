@@ -16,6 +16,8 @@ import { currentUserRouter } from './src/routes/current-user.js';
 import { signoutRouter } from './src/routes/signout.js';
 import { patientAppnRouter } from './src/routes/patientAppn.js';
 import { appointmentRouter } from './src/routes/appointment.js';
+import { seedRouter } from './src/routes/seed.js';
+import { cleanupRouter } from './src/routes/cleanup.js';
 import { errorHandler} from '@fhannan/common';
 
 import currentUser  from './src/middlewares/currentUser.js';
@@ -66,6 +68,8 @@ app.use(signoutRouter);
 app.use(doctorsRouter);
 app.use(patientAppnRouter);
 app.use(appointmentRouter);
+app.use(cleanupRouter);
+app.use(seedRouter);
 // app.all('*', async (req, res) => {
 //   throw new NotFoundError();
 // });
